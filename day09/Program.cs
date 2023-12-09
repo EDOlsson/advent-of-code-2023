@@ -8,22 +8,42 @@ static IEnumerable<int> ParseHistory(string line)
         .Select(s => Convert.ToInt32(s));
 }
 
+/*
 var part1 = puzzleInput
     .Select(ParseHistory)
-    .Select(PredictReading)
+    .Select(PredictFinalReading)
     .Sum();
 
 Console.WriteLine($"Part 1 : {part1}");
+*/
+
+var part2 = puzzleInput
+    .Select(ParseHistory)
+    .Select(PredictFirstReading)
+    .Sum();
+
+Console.WriteLine($"Part 2 : {part2}");
 
 return 0;
 
-static int PredictReading(IEnumerable<int> readings)
+/*
+static int PredictFinalReading(IEnumerable<int> readings)
 {
     if (readings.All(r => r is 0))
         return 0;
 
     else
-        return readings.Last() + PredictReading(CalculateSingleDifference(readings));
+        return readings.Last() + PredictFinalReading(CalculateSingleDifference(readings));
+}
+*/
+
+static int PredictFirstReading(IEnumerable<int> readings)
+{
+    if (readings.All(r => r is 0))
+        return 0;
+
+    else
+        return readings.First() - PredictFirstReading(CalculateSingleDifference(readings));
 }
 
 static IEnumerable<int> CalculateSingleDifference(IEnumerable<int> input)
